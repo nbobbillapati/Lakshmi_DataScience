@@ -6,6 +6,7 @@
 #install the gdata and plyr packages and load in to R.
 library(plyr)
 library(gdata)
+getwd()
 #setwd("C:/MSDS 6306-FALL2016/404/Live session 06")
 setwd("G://onlineSchool//SMU//MSDS6306//lectureNotes//week5")
 ## You need a perl interpreter to do this on Windows.
@@ -32,17 +33,17 @@ count(is.na(bk$SALE.PRICE.N))
 names(bk) <- tolower(names(bk)) # make all variable names lower case
 
 ## TODO: Get rid of leading digits bk$gross.square.feet as above bk$SALE.PRICE
-bk$gross.sqft <- as.numeric()
+bk$gross.sqft <- as.numeric(gsub("[^[:digit:]]","", bk$GROSS.SQUARE.FEET))
 
 # TODO: Get rid of leading digits of bk$land.sqft as above bk$SALE.PRICE
-bk$land.sqft <- 
+bk$land.sqft <- as.numeric(gsub("[^[:digit:]]","", bk$LAND.SQUARE.FEET))
   
 bk$year.built <- as.numeric(as.character(bk$year.built))
 
 ## do a bit of exploration to make sure there's not anything
 ## weird going on with sale prices
 attach(bk)
-hist(sale.price.n) 
+hist(bk$SALE.PRICE.N) 
 detach(bk)
 
 ## keep only the actual sales
@@ -57,7 +58,7 @@ dim(bk.homes)
 
 # TODO: complete plot() with log10 of bk.homes$gross.sqft,bk.homes$sale.price.n
 #   as above "bk.sale"
-plot()
+plot(log10(bk.homes$gross.sqft), log10(bk.homes$SALE.PRICE.N))
 summary(bk.homes[which(bk.homes$sale.price.n<100000),])
 
 
